@@ -1,22 +1,15 @@
 const mongoose = require('mongoose'),
     User = require('./models/User'),
+    Room =  require('./models/Room'),
     server = require('./server/server'),
+    bodyParser = require('body-parser'),
     controller = require('./controllers/appController'),
-    port = 8080;
+    port = process.env.PORT || 8080,
+    initiateMongoServer = require('./config/db');
 
 mongoose.set('debug', true);
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/tempdb', { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true}, (err, res) => {
-    if (err) throw err;
-    else console.log('connection succesful to database');
-});
+initiateMongoServer();
 
-var defaultUser = {
-    'username': 'admin',
-    'password': 'Deep1479635admin' 
-};
-//controller.addUser(defaultUser);
-//User.create(defaultUser);
 
 class TempoApp {
     run() {
