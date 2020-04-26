@@ -10,6 +10,7 @@ const mongoose = require('mongoose'),
 mongoose.set('debug', true);
 initiateMongoServer();
 
+controller.createDefaultUser("admin","1234");
 
 class TempoApp {
     run() {

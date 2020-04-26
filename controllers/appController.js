@@ -9,12 +9,14 @@ exports.createDefaultUser = async (username, password) => {
     user = new User({
         username,
         password
-    });
-    
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
-
-    await user.save();
+    })
+    var kuser = User.findOne({ username: username });
+    if (!kuser) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+    } else {
+        await user.save();
+    }
 };
 
 exports.home = async (req, res) => {
@@ -80,7 +82,7 @@ exports.doLogin = async (req, res) => {
             payload,
             "6df743353ede3f30e7a6ed3e1564e4df7485e1f991a4a863d8a51c59f5de06f6",
             {
-                expiresIn: 4000
+                expiresIn: 3600
             },
             (err, token) => {
                 if (err) throw err;
