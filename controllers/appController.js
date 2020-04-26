@@ -10,11 +10,10 @@ exports.createDefaultUser = async (username, password) => {
         username,
         password
     })
-    var kuser = User.findOne({ username: username });
-    if (!kuser) {
+    var defaultUser = User.findOne({ username: username });
+    if (!defaultUser) {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
-    } else {
         await user.save();
     }
 };
