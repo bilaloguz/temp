@@ -1,21 +1,17 @@
+'use strict';
 const mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    Room = mongoose.model('Room'),
-    bcrypt = require('bcryptjs'),
-    jwt = require('jsonwebtoken');
+    User = require('../models/User'),
+    Room = require('../models/Room');
 
 exports.createDefaultUser = async (userData) => {
     try {
-        username = userData.username;
-        var defaultUser = User.findOne({ username: username });
+        var defaultUser = User.findOne({userData});
         if (defaultUser === null) {
-            const salt = await bcrypt.genSalt(10);
-            password = await bcrypt.hash(userData.password, salt);
-            var user = new User({
-                username,
-                password
-            });
-            await user.save();
+            User.create(userData, function (err, user, next) {
+                if (error){
+                    return next(error);
+                }
+            })
             return console.log('user created');
         }        
     } catch (error) {
@@ -35,7 +31,7 @@ exports.showUsers = async (req, res) => {
 exports.home = async (req, res) => {
     try {
         var allRooms = await Room.find().exec();    
-        return res.render('home', {rooms: allRooms});    
+        return res.render('index', {rooms: allRooms});    
     } catch (error) {
         return res.status(500).send(error.message);
     }
@@ -69,48 +65,28 @@ exports.showLogin = async (req, res) => {
     
 };
 
-exports.doLogin = async (req, res) => {
-    const { username, password } = req.body
-        try {
-        var user = await User.findOne({
-            username
-        });
-        console.log(user);
-        if (!user)
-            return res.status(400).json({
-                message: "User not exist"
+exports.doLogin = function (req, res, next) {
+    try {
+        if (req.body.username && req.body.password) {
+            User.authanticate(req.body.username, req.body.password, function (err, user) {
+                if (error || !user) {
+                    var err = new Error('Wrong email or password');
+                    err.status = 401;
+                    return next(err);
+                } else {
+                    req.session.userId = user._id;
+                    return res.redirect('/');
+                }
             });
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch)
-            return res.status(400).json({
-                message: "Incorrect Password !"
-            });
-
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
-
-        jwt.sign(
-            payload,
-            "6df743353ede3f30e7a6ed3e1564e4df7485e1f991a4a863d8a51c59f5de06f6",
-            {
-                expiresIn: 3600
-            },
-            (err, token) => {
-                if (err) throw err;
-                res.status(200).json({
-                    token
-                });
-            }
-        );
+        } else {
+            var err = new Error('All fields required');
+            err.status = 400;
+            return next(err);
+        }
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "Server error"
-        });
+        console.log(error)
     }
+
 };
 
 //for test purposes
