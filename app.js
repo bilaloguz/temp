@@ -1,3 +1,5 @@
+'use strict';
+
 const mongoose = require('mongoose'),
     User = require('./models/User'),
     Room =  require('./models/Room'),
