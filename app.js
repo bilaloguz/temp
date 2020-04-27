@@ -1,9 +1,9 @@
 const mongoose = require('mongoose'),
-//    User = require('./models/User'),
-//    Room =  require('./models/Room'),
+    User = require('./models/User'),
+    Room =  require('./models/Room'),
     server = require('./server/server'),
     controller = require('./controllers/appController'),
-    port = process.env.PORT || 8080,
+    port = process.env.PORT || 3000,
     initiateMongoServer = require('./config/db');
 
 mongoose.set('debug', true);
