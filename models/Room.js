@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const RoomSchema = new mongoose.Schema({
+const roomSchema = new mongoose.Schema({
     name: String,
     createdAt: String
 });
 
-module.exports = mongoose.model('Room', RoomSchema);
+module.exports = mongoose.model('Room', roomSchema);

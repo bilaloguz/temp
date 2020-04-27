@@ -2,21 +2,35 @@ const mongoose = require('mongoose'),
     User = mongoose.model('User'),
     Room = mongoose.model('Room'),
     bcrypt = require('bcryptjs'),
-    jwt = require('jsonwebtoken'),
-    auth = require('../middleware/auth');
+    jwt = require('jsonwebtoken');
 
-exports.createDefaultUser = async (username, password) => {
-    user = new User({
-        username,
-        password
-    })
-    var defaultUser = User.findOne({ username: username });
-    if (!defaultUser) {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
-        await user.save();
+exports.createDefaultUser = async (userData) => {
+    try {
+        username = userData.username;
+        var defaultUser = User.findOne({ username: username });
+        if (defaultUser === null) {
+            const salt = await bcrypt.genSalt(10);
+            password = await bcrypt.hash(userData.password, salt);
+            var user = new User({
+                username,
+                password
+            });
+            await user.save();
+            return console.log('user created');
+        }        
+    } catch (error) {
+        console.log(error);
     }
 };
+
+exports.showUsers = async (req, res) => {
+    try {
+        var allUsers = await User.find().exec();    
+        return res.render('u', {users: allUsers});    
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
 
 exports.home = async (req, res) => {
     try {
@@ -56,12 +70,12 @@ exports.showLogin = async (req, res) => {
 };
 
 exports.doLogin = async (req, res) => {
-
-    const { username, password } = req.body;
-    try {
-        let user = await User.findOne({
+    const { username, password } = req.body
+        try {
+        var user = await User.findOne({
             username
         });
+        console.log(user);
         if (!user)
             return res.status(400).json({
                 message: "User not exist"
@@ -71,6 +85,7 @@ exports.doLogin = async (req, res) => {
             return res.status(400).json({
                 message: "Incorrect Password !"
             });
+
         const payload = {
             user: {
                 id: user.id

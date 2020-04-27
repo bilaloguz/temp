@@ -1,8 +1,7 @@
 const mongoose = require('mongoose'),
-    User = require('./models/User'),
-    Room =  require('./models/Room'),
+//    User = require('./models/User'),
+//    Room =  require('./models/Room'),
     server = require('./server/server'),
-    bodyParser = require('body-parser'),
     controller = require('./controllers/appController'),
     port = process.env.PORT || 8080,
     initiateMongoServer = require('./config/db');
@@ -10,11 +9,13 @@ const mongoose = require('mongoose'),
 mongoose.set('debug', true);
 initiateMongoServer();
 
-controller.createDefaultUser("admin","1234");
-
 class TempoApp {
     run() {
         try {
+            var result = controller.createDefaultUser(
+                '{"username":"admin","password":"1234"}'
+                );
+            console.log(result);
             server.listen(port, () => {
                 console.log('server runs at localhost:%s', port);
             });

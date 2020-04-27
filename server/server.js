@@ -9,6 +9,7 @@ server.engine('pug', require('pug').__express);
 server.set('view engine', 'pug');
 server.set('views', path.join(__dirname,'/../views'));
 server.use(express.static(path.join(__dirname, '/../static')));
+server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(routes);
 

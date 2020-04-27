@@ -1,7 +1,9 @@
 const { Router } = require('express'),
     router = Router(),
+    auth = require('../middleware/auth'),
     controllers = require('../controllers/appController');
 
+router.get('/u',auth, controllers.showUsers)//dummy
 router.get('/', controllers.home);
 router.get('/login', controllers.showLogin);
 router.post('/api/login', controllers.doLogin);
