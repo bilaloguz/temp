@@ -1,19 +1,15 @@
 'use strict';
 const mongoose = require('mongoose'),
-    User = require('../models/User'),
-    Room = require('../models/Room');
+    User  = require('../models/User'),
+    Room  = require('../models/Room');
 
-exports.createDefaultUser = async (userData) => {
+exports.createDefaultUser = function() {
     try {
-        var defaultUser = User.findOne({userData});
-        if (defaultUser === null) {
-            User.create(userData, function (err, user, next) {
-                if (error){
-                    return next(error);
-                }
-            })
-            return console.log('user created');
-        }        
+        var result = User.findOne({name : "admin" });
+        if (!result) {
+            User.create({ name:"admin", password:"1234" });
+            console.log('user created');
+        }
     } catch (error) {
         console.log(error);
     }
@@ -65,12 +61,12 @@ exports.showLogin = async (req, res) => {
     
 };
 
-exports.doLogin = function (req, res, next) {
+exports.doLogin = async (req, res, next) => {
     try {
         if (req.body.username && req.body.password) {
             User.authanticate(req.body.username, req.body.password, function (err, user) {
-                if (error || !user) {
-                    var err = new Error('Wrong email or password');
+                if (err || !user) {
+                    var err = new Error('Wrong name or password');
                     err.status = 401;
                     return next(err);
                 } else {
@@ -89,10 +85,32 @@ exports.doLogin = function (req, res, next) {
 
 };
 
+exports.logout = async (req, res, next) => {
+    if (req.session) {
+        req.session.destroy(function (err) {
+            if (err) {
+                return next(err);
+            } else {
+                return res.redirect('/');
+            }
+        })
+    }
+};
+
 //for test purposes
-exports.whoami = async (req, res) => {
+exports.whoami = async (req, res, next) => {
     try {
-        const user = await User.findById(req.user.id);
+        const user = await User.findById(req.session.userId).exec(function (error, user) {
+            if (error) {
+                return console.log(error);//next(error);       
+            } else {
+                if (user === null ) {
+                    var err = new Error('not authorized');
+                    err.status= 400;
+                    return res.redirect('/login');//next(err);
+                }
+            }
+        });
         res.json(user);
     } catch (error) {
         res.send({ message: "Error in Fetching user"});

@@ -26,5 +26,13 @@ server.use(session({
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(routes);
+server.use(function (req, res, next) {
+    var err = new Error('File not found');
+    err.status = 404;
+    next(err);
+});
+server.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+});
 
 module.exports = server;

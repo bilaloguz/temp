@@ -5,4 +5,4 @@
 ###### run the app:
 `npm run dev`
 ###### browse:
-will run at: `localhost:3000/`
+will run at: `localhost:1234/`

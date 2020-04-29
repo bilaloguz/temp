@@ -1,10 +1,7 @@
-'use strict';
-
 const mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
     bcrypt = require('bcrypt');
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
     name: {
         type: String,
         unique: true,
@@ -17,13 +14,12 @@ const UserSchema = new Schema({
 });
 
 UserSchema.statics.authanticate = function (username, password, callback) {
-    User.findOne({ username: username })
+    User.findOne({ name: username })
     .exec(function (err, user) {
         if (err) {
             return callback(err)
         } else if (!user) {
             var err = new Error('User not found');
-            err.status(401);
             return callback(err);
         }
         bcrypt.compare(password, user.password, function (err, result){
@@ -36,7 +32,7 @@ UserSchema.statics.authanticate = function (username, password, callback) {
     });
 }
 
-UserSchema.pre('save', function (err, hash) {
+UserSchema.pre('save', function (next) {
     var user = this;
     bcrypt.hash(user.password, 10, function (err, hash) {
         if (err) {
