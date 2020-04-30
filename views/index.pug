@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+    body
+        include includes/flash.pug
+
+        ul(class="list-group")
+            if (users)
+                each user in users
+                    li= user.username
+            else
+                p There is no users
+        
+        if (user)
+            h5= user.username

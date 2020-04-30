@@ -1,18 +1,12 @@
-'use strict';
-
-const mongoose = require('mongoose'),
+const mongoose = require('mongoose');
     Schema = mongoose.Schema;
 
-const roomSchema = new Schema({
+const RoomSchema = new Schema({
     name: {
         type: String,
-        unique: true,
         required: true
-    },
-    createdAt: {
-        type: String
     }
 });
 
-var Room = mongoose.model('Room', roomSchema);
+const Room = mongoose.model('Room', RoomSchema);
 module.exports = Room;

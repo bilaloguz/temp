@@ -1,38 +1,47 @@
-const mongoose = require('mongoose'),
-    express = require('express'),
+const express = require('express'),
+    mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
-    routes = require('../routes/routes'),
-    path = require('path'),
-    server = express(),
+    User = require('../models/User'),
+    flash = require('connect-flash'),
     session = require('express-session'),
-    MongoStore = require('connect-mongo')(session),
-    initiateMongoServer = require('../config/db');
+    cookieParser = require('cookie-parser'),
+    passport = require('passport'),
+    router = require('../routes/route'),
+    path = require('path'),
+    app = express();
 
-server.engine('pug', require('pug').__express);
-server.set('view engine', 'pug');
-server.set('views', path.join(__dirname,'/../views'));
-server.use(express.static(path.join(__dirname, '/../static')));
-mongoose.set('debug', true);
-initiateMongoServer()
-var db = mongoose.connection;
-server.use(session({
-    secret: '32asdsad2132we654sad5a6sd46',
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-        mongooseConnection: db
+app.use(cookieParser("sosecret"));
+app.use(
+    session({
+        cookie: { maxAge: 60000 },
+        resave: true,
+        secret: "sosecret",
+        saveUninitialized: true
     })
-}));
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(routes);
-server.use(function (req, res, next) {
-    var err = new Error('File not found');
-    err.status = 404;
-    next(err);
-});
-server.use(function (err, req, res, next) {
-    res.status(err.status || 500);
+);
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+    res.locals.flashSuccess = req.flash('flashSuccess');
+    res.locals.flashError = req.flash('flashError');
+    res.locals.passportFailure = req.flash('error');
+    res.locals.passportSuccess = req.flash('success');
+    res.locals.user = req.user;
+    next();
 });
 
-module.exports = server;
+app.engine('pug', require('pug').__express);
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname,'/../views'));
+app.use(express.static(path.join(__dirname, '/../static')));
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(router);
+
+app.use((req, res, next) => {
+    res.render('404');
+});
+
+module.exports = app;

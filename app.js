@@ -1,25 +1,22 @@
-'use strict';
-
 const mongoose = require('mongoose'),
-//    { User } = require('./models/User'),
-//    { Room } =  require('./models/Room'),
-    server = require('./server/server'),
-    controller = require('./controllers/controller'),
-    port = process.env.PORT || 1234;
+    app = require('./server/server'),
+    { createDefaultUser } = require('./controllers/controller'),
+    PORT = 3000 || process.env.PORT;
 
-controller.createDefaultUser()
+mongoose.connect('mongodb://localhost/tempdb', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+});
 
-class TempoApp {
-    run() {
-        try {
-            server.listen(port, () => {
-                console.log('server runs at localhost:%s', port);
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
-}
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, "db connection error"));
+db.once('open', () => {
+    console.log('connected to db succesfully');
+});
 
-var svr = new TempoApp();
-svr.run();
+createDefaultUser()
+
+app.listen(PORT, () => {
+    console.log('App started succesfully localhost:%s ', PORT);
+});
