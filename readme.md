@@ -2,13 +2,14 @@
 
 ###### Supported OS
 - Linux
+- Windows
 
 ###### Required packages
 - Node.js          v12.16.2
 - Npm              6.14.4
 - Mongodb          v4.2.6
 
-###### Required node packages
+###### Used node packages
 - Express          4.17.1 
 - Express-session  1.17.1
 - Bcryptjs         2.4.3 
@@ -20,7 +21,9 @@
 - Passport-local   1.0.0 
 - Pug              2.0.4
 
-###### Run mongodb first:
+###### Run setup:
+`npm install`
+###### Run mongodb before run the app:
 `sudo mongod` || `sudo service mongod start` || `systemctl start mongod`
 ###### Run the app:
 `npm run dev`
