@@ -12,7 +12,7 @@ module.exports.createDefaultUser = () => {
     }).then(user => {
         if (!user) {
             bcrypt.genSalt(10, function(err, salt) {
-                bcrypt.hash("123admin456", salt, function(err, hash) {
+                bcrypt.hash("123456", salt, function(err, hash) {
                     if (err) throw err;
                     const newUser = new User({
                         username: "admin",
@@ -22,7 +22,6 @@ module.exports.createDefaultUser = () => {
                         .save()
                         .then(() => {
                             console.log('user created');
-                            res.redirect('/');
                         })
                         .catch(err => console.log(err));
                 });
