@@ -3,7 +3,7 @@ if (flashSuccess)
         p= flashSuccess
 if (flashError)
     .alert.alert-danger
-        p= flashError
+        p(style="color:white;")= flashError
 
 if (passportSucces)
     .alert.alert-primary
@@ -11,4 +11,4 @@ if (passportSucces)
 
 if (passportFailure)
     .alert.alert-danger
-        p= passportFailure
+        p(style="color:white;")= passportFailure

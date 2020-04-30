@@ -10,9 +10,10 @@ head
   //if lt IE 9
     script(src='http://html5shiv.googlecode.com/svn/trunk/html5.js')
 body
-    .container
+    .container  
       #login
-
+        p(style="font-size:30px; color:white") Log in
+        br
         form(action='/login' method='POST')
           fieldset.clearfix
             p
@@ -29,5 +30,5 @@ body
           if (errors)
             .alert.alert-danger
                 each message in errors
-                    p= message
+                    p(style="color:white;")= message
             

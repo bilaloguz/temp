@@ -7,13 +7,27 @@ html(lang="en")
     body
         include includes/flash.pug
 
+        p code sample users
         ul
             if (users)
                 each user in users
                     li= user.username
             else
                 p There is no users
-        
+
+        p code sample rooms
+        ul
+            if (rooms)
+                each room in rooms
+                    li= room.name
+            else
+                p There is no rooms
+        p code sample current user and user logout        
         if (user)
             h5= user.username
             a(href="/logout") logout
+        
+        p code sample add rooms
+        form(action="/" method="POST")
+            input(type="text" name="roomname")
+            button(type="submit" value="Add room")

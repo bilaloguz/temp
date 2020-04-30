@@ -50,12 +50,14 @@ module.exports.userLogout = (req, res, next) => {
     res.redirect('/login');
 }
 
-module.exports.home = (req, res, next) => {
-    User.find({})
-        .then(users => {
-            res.render('index', {users, flashSuccess : req.flash('flashSuccess')});
-        })
-        .catch(err => console.log(err));
+module.exports.home = async (req, res, next) => {
+    try {
+        const users = await User.find({}).exec();
+        const rooms = await Room.find({}).exec();
+        return res.render('index', {users, rooms,  flashSuccess : req.flash('flashSuccess')});
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 module.exports.addRoom = (req, res, next) => {
@@ -65,7 +67,7 @@ module.exports.addRoom = (req, res, next) => {
     }).then(room => {
         if (!room) {
             const newRoom = new Room({
-                username: roomname
+                name: roomname
             });
                 newRoom
                     .save()
