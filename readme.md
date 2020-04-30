@@ -23,7 +23,7 @@
 
 ###### Run setup:
 `npm install`
-###### Run mongodb before run the app:
+###### Run mongodb before run the app (on linux):
 `sudo mongod` || `sudo service mongod start` || `systemctl start mongod`
 ###### Run the app:
 `npm run dev`
