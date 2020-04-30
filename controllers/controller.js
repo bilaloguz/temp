@@ -1,6 +1,5 @@
 
-const formValidation = require('../validation/formValidation'),
-    bcrypt = require('bcryptjs'),
+const bcrypt = require('bcryptjs'),
     User = require('../models/User'),
     Room = require('../models/Room'),
     passport = require('passport');
@@ -46,7 +45,7 @@ module.exports.doUserLogin = (req, res, next) => {
 }
 
 module.exports.userLogout = (req, res, next) => {
-    res.logout();
+    req.logout();
     req.flash('succes', 'Succesfully logout');
     res.redirect('/login');
 }

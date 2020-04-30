@@ -17,11 +17,11 @@ body
           fieldset.clearfix
             p
               span.fontawesome-user
-              input(type='text' name='username' value='Username' onblur="if(this.value == '') this.value = 'Username'" onfocus="if(this.value == 'Username') this.value = ''" required='')
+              input(type='text' name='username' value='Username' onblur="if(this.value == '') this.value = 'Username'" onfocus="if(this.value == 'Username') this.value = ''" required)
             // JS because of IE support; better: placeholder="Username"
             p
               span.fontawesome-lock
-              input(type='password' name='password' value='Password' onblur="if(this.value == '') this.value = 'Password'" onfocus="if(this.value == 'Password') this.value = ''" required='')
+              input(type='password' name='password' value='Password' onblur="if(this.value == '') this.value = 'Password'" onfocus="if(this.value == 'Password') this.value = ''" required)
             // JS because of IE support; better: placeholder="Password"
             p
               input(type='submit' value='Sign In')

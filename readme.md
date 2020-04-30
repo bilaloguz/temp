@@ -1,6 +1,6 @@
 ### Temp Ui - node server
 
-###### supported OS
+###### Supported OS
 - Linux
 
 ###### Required packages

@@ -3,11 +3,11 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
+        title Temp
     body
         include includes/flash.pug
 
-        ul(class="list-group")
+        ul
             if (users)
                 each user in users
                     li= user.username
@@ -16,3 +16,4 @@ html(lang="en")
         
         if (user)
             h5= user.username
+            a(href="/logout") logout

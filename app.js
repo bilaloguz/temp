@@ -18,5 +18,5 @@ db.once('open', () => {
 createDefaultUser()
 
 app.listen(PORT, () => {
-    console.log('App started succesfully localhost:%s ', PORT);
+    console.log('App started succesfully at localhost:%s ', PORT);
 });
