@@ -44,39 +44,51 @@ module.exports.doUserLogin = (req, res, next) => {
 }
 
 module.exports.userLogout = (req, res, next) => {
-    req.logout();
-    req.flash('succes', 'Succesfully logout');
-    res.redirect('/login');
+    if (req.isAuthenticated()) {
+        req.logout();
+        req.flash('succes', 'Succesfully logout');
+        res.redirect('/login');
+    } else {
+        return res.redirect('/login');
+    }
 }
 
 module.exports.home = async (req, res, next) => {
-    try {
-        const users = await User.find({}).exec();
-        const rooms = await Room.find({}).exec();
-        return res.render('index', {users, rooms,  flashSuccess : req.flash('flashSuccess')});
-    } catch (error) {
-        console.log(error);
+    if (req.isAuthenticated()) {
+        try {
+            const users = await User.find({}).exec();
+            const rooms = await Room.find({}).exec();
+            return res.render('index', { users, rooms, flashSuccess: req.flash('flashSuccess') });
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        return res.redirect('/login');
     }
 }
 
 module.exports.addRoom = (req, res, next) => {
-    const roomname = req.body.roomname;
-    Room.findOne({
-        name: roomname
-    }).then(room => {
-        if (!room) {
-            const newRoom = new Room({
-                name: roomname
-            });
+    if (req.isAuthenticated()) {
+        const roomname = req.body.roomname;
+        Room.findOne({
+            name: roomname
+        }).then(room => {
+            if (!room) {
+                const newRoom = new Room({
+                    name: roomname
+                });
                 newRoom
                     .save()
                     .then(() => {
                         console.log('Room created');
                         res.redirect('/');
                     })
-                    .catch(err => console.log(err));     
-        } else {
-            return console.log("room exists")
-        }
-    }).catch(err => console.log(err));
+                    .catch(err => console.log(err));
+            } else {
+                return console.log("room exists")
+            }
+        }).catch(err => console.log(err));
+    } else {
+        return res.redirect('/login');
+    }
 }
