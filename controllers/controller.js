@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs'),
 require('../authentication/passport/local');
 
 module.exports.auth = (req, res, next) => {
-    if (req.session.user) {
+    if (req.isAuthenticated()) {
         return next();
     } else {
         req.flash('error', 'You should sign in first');
@@ -53,6 +53,7 @@ module.exports.doUserLogin = (req, res, next) => {
 }
 
 module.exports.userLogout = (req, res, next) => {
+//    req.session.destroy();
     req.logout();
     req.flash('succes', 'Succesfully logout');
     res.redirect('/login');
