@@ -1,6 +1,8 @@
 const mongoose = require('mongoose'),
     app = require('./server/server'),
+    session = require('express-session'),
     { createDefaultUser } = require('./controllers/controller'),
+    MongoStore = require('connect-mongo')(session),
     PORT = 3000 || process.env.PORT;
 
 mongoose.connect('mongodb://localhost/tempdb', {
@@ -16,6 +18,16 @@ db.once('open', () => {
 });
 
 createDefaultUser()
+
+app.use(
+    session({
+        cookie: { maxAge: 60000 },
+        resave: false,
+        secret: "sosecret",
+        saveUninitialized: true,
+        store: new MongoStore({ mongooseConnection: db })
+    })
+);
 
 app.listen(PORT, () => {
     console.log('App started succesfully at localhost:%s ', PORT);

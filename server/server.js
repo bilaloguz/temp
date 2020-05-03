@@ -1,24 +1,12 @@
 const express = require('express'),
-    mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
     User = require('../models/User'),
     flash = require('connect-flash'),
-    session = require('express-session'),
-    cookieParser = require('cookie-parser'),
     passport = require('passport'),
     router = require('../routes/route'),
     path = require('path'),
     app = express();
 
-app.use(cookieParser("sosecret"));
-app.use(
-    session({
-        cookie: { maxAge: 60000 },
-        resave: true,
-        secret: "sosecret",
-        saveUninitialized: true
-    })
-);
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
