@@ -4,6 +4,7 @@ const express = require('express'),
     User = require('./models/User'),
     flash = require('connect-flash'),
     session = require('express-session'),
+    cookieParser = require('cookie-parser'),
     passport = require('passport'),
     router = require('./routes/route'),
     path = require('path'),
@@ -26,7 +27,7 @@ db.once('open', () => {
 });
     
 createDefaultUser()
-
+app.use(cookieParser("sosecret"));
 app.use(session({
         cookie: { maxAge: 60000 },
         resave: false,
