@@ -2,7 +2,7 @@
 
 ###### Supported OS
 - Linux
-- Windows
+- Windows 
 
 ###### Required packages
 - Node.js          v12.16.2
