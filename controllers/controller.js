@@ -92,7 +92,8 @@ module.exports.addRoom = (req, res, next) => {
                 })
                 .catch(err => console.log(err));
         } else {
-            return console.log("room exists")
+            req.flash('error','Room already exists');
+            res.redirect('/');
         }
     }).catch(err => console.log(err));
 
