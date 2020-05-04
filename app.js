@@ -30,7 +30,7 @@ app.enable('trust proxy');
 
 createDefaultUser()
 //app.use(express.logger('dev'));
-app.use(cookieParser(/*"sosecret"*/));
+//app.use(cookieParser(/*"sosecret"*/));
 app.use(session({
         cookie: { maxAge: 60000 },
         resave: false,
@@ -64,7 +64,6 @@ app.use(router);
 app.use((req, res, next) => {
     res.render('404');
 });
-
 
 app.listen(PORT, () => {
     console.log('App started succesfully at localhost:%s ', PORT);
