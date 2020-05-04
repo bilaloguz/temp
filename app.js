@@ -27,19 +27,19 @@ db.once('open', () => {
 });
 createDefaultUser()
 
-app.set('trust proxy', 1);
+app.set('trust proxy', true);
 //app.use(express.logger('dev'));
 //app.use(cookieParser(/*"sosecret"*/));
 app.use(session({
-        name: 'user.sid',
+//        name: 'user.sid',
         secret: "sosecret",
         resave: false,
         saveUninitialized: false,
         cookie: { 
             maxAge: 60000,
-            sameSite: true,
-            httpOnly: true,
-            secure: true
+//            sameSite: true,
+//            httpOnly: true,
+//            secure: true
             },
         store: new MongoStore({ mongooseConnection: db })
     }));
