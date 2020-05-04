@@ -27,7 +27,8 @@ db.once('open', () => {
 });
     
 createDefaultUser()
-app.use(cookieParser("sosecret"));
+app.use(express.logger('dev'));
+app.use(cookieParser(/*"sosecret"*/));
 app.use(session({
         cookie: { maxAge: 60000 },
         resave: false,
