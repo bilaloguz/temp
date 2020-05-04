@@ -27,7 +27,7 @@ db.once('open', () => {
 });
     
 createDefaultUser()
-app.use(express.logger('dev'));
+//app.use(express.logger('dev'));
 app.use(cookieParser(/*"sosecret"*/));
 app.use(session({
         cookie: { maxAge: 60000 },
@@ -52,8 +52,8 @@ app.use((req, res, next) => {
 
 app.engine('pug', require('pug').__express);
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname,'./views'));
-app.use(express.static(path.join(__dirname, './static')));
+app.set('views', path.join(__dirname,'/views'));
+app.use(express.static(path.join(__dirname, '/static')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(router);

@@ -26,7 +26,7 @@ body
             // JS because of IE support; better: placeholder="Password"
             p
               input(type='submit' value='Sign In')
-          include includes/flash.pug
+          include flash.pug
           if (errors)
             .alert.alert-danger
                 each message in errors
