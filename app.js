@@ -34,11 +34,13 @@ app.use(session({
         name: 'user.sid',
         secret: "sosecret",
         resave: false,
-        saveUninitialized: true,
-        cookie: { secure: true,
+        saveUninitialized: false,
+        cookie: { 
+            maxAge: 60000,
             sameSite: true,
             httpOnly: true,
-            maxAge: 60000 },
+            secure: true
+            },
         store: new MongoStore({ mongooseConnection: db })
     }));
 
