@@ -25,17 +25,17 @@ db.on('error', console.error.bind(console, "db connection error"));
 db.once('open', () => {
     console.log('connected to db succesfully');
 });
-
-app.enable('trust proxy');
-
 createDefaultUser()
+
+app.set('trust proxy', 1);
 //app.use(express.logger('dev'));
 //app.use(cookieParser(/*"sosecret"*/));
 app.use(session({
         cookie: { maxAge: 60000 },
         resave: false,
         secret: "sosecret",
-        secure: true,
+//        secure: true,
+        unset: 'destroy',
         saveUninitialized: true,
         store: new MongoStore({ mongooseConnection: db })
     }));
