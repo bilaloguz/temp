@@ -25,7 +25,9 @@ db.on('error', console.error.bind(console, "db connection error"));
 db.once('open', () => {
     console.log('connected to db succesfully');
 });
-    
+
+app.enable('trust proxy');
+
 createDefaultUser()
 //app.use(express.logger('dev'));
 app.use(cookieParser(/*"sosecret"*/));
@@ -33,14 +35,14 @@ app.use(session({
         cookie: { maxAge: 60000 },
         resave: false,
         secret: "sosecret",
-        secure: false,
+        secure: true,
         saveUninitialized: true,
         store: new MongoStore({ mongooseConnection: db })
     }));
 
 app.use(flash());
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session({ withCredentials: true }));
 
 app.use((req, res, next) => {
     res.locals.flashSuccess = req.flash('flashSuccess');
