@@ -31,12 +31,13 @@ app.set('trust proxy', 1);
 //app.use(express.logger('dev'));
 //app.use(cookieParser(/*"sosecret"*/));
 app.use(session({
-        cookie: { maxAge: 60000 },
-        resave: false,
+        name: 'user.sid',
         secret: "sosecret",
-//        secure: true,
-        unset: 'destroy',
+        resave: false,
         saveUninitialized: true,
+        unset: 'destroy',
+        cookie: { secure: true,
+            maxAge: 60000 },
         store: new MongoStore({ mongooseConnection: db })
     }));
 
