@@ -11,7 +11,7 @@ module.exports.auth = (req, res, next) => {
         return next();
     } else {
         req.flash('error', 'You should sign in first');
-        return res.redirect('/login')
+        return res.redirect('/login');
     }
 }
 
@@ -40,7 +40,12 @@ module.exports.createDefaultUser = () => {
 }
 
 module.exports.showUserLogin = (req, res, next) => {
-    res.render('login');
+    if (!req.user) {
+        res.render('login');
+    } else {
+        req.flash('error', 'you are already signed in');
+        return res.redirect('/');
+    }
 }
 
 module.exports.doUserLogin = (req, res, next) => {
@@ -53,7 +58,7 @@ module.exports.doUserLogin = (req, res, next) => {
 }
 
 module.exports.userLogout = (req, res, next) => {
-//    req.session.destroy();
+    //    req.session.destroy();
     req.logout();
     req.flash('succes', 'Succesfully logout');
     res.redirect('/login');
