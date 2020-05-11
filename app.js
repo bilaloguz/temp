@@ -16,7 +16,8 @@ const express = require('express'),
 mongoose.connect('mongodb://localhost/tempdb', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 });
 
 mongoose.Promise = global.Promise;
@@ -29,17 +30,18 @@ createDefaultUser()
 
 app.set('trust proxy', true);
 //app.use(express.logger('dev'));
-//app.use(cookieParser(/*"sosecret"*/));
+app.use(cookieParser());
 app.use(session({
-//        name: 'user.sid',
-        secret: "sosecret",
+        name: 'app.sid',
+        secret: "kjl2h4cfh98sjk",
         resave: false,
         saveUninitialized: false,
         cookie: { 
             maxAge: 60000,
-//            sameSite: true,
-//            httpOnly: true,
-//            secure: true
+            domain:"172.104.128.5:3000",
+            sameSite: true,
+            httpOnly: true,
+            secure: true
             },
         store: new MongoStore({ mongooseConnection: db })
     }));

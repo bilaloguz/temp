@@ -26,9 +26,10 @@
 ###### Run mongodb before run the app (on linux):
 `sudo mongod` || `sudo service mongod start` || `systemctl start mongod`
 ###### Run the app:
-`npm run dev`
+- Production mode `npm start`  
+- Development mode `npm run dev`
 ###### Browse:
-App will run at: `localhost:3000/`
+App will run at `localhost:3000/`
 ###### Default user:
-`username: admin`  
-`password: 123456`
+- username `admin`  
+- password `123456`
