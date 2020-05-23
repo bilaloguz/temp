@@ -1,0 +1,16 @@
+.temp-container {
+    position: relative;
+}
+
+.temp-holder {
+    margin-left: 17rem;
+    display: grid;
+    grid: auto / auto;
+    justify-content: center;
+  }
+.message {
+  position:fixed;
+  z-index: 0;
+  top: 0px;
+  left: 0px;
+}
