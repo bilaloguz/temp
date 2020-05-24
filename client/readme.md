@@ -52,7 +52,7 @@ http://localhost:3000
  --> /api/room   *Room service*         (Login required)
 	-post	     (Save a room)
 	-get	     (Get all rooms)
- 	-get/:id     (Get a room by id )	
-	-delete/:id  (Delete a room by id )
-	-put/:id     (Update a room by id )
+ 	-get/:id     (Get a room by id)	
+	-delete/:id  (Delete a room by id)
+	-put/:id     (Update a room by id)
 ```

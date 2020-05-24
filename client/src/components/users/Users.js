@@ -50,7 +50,6 @@ const Home = ({
                     <SideBarItem highlight={true} label='Accounts' icon='user' />
                     <SideBarItem path='/guests' label='Guests' icon='users' />
                     <SideBarItem path='/logs' label='Logs' icon='database' />
-                    <SideBarItem onClick={logout} path="#!" label='logout' icon='logout' />
             </Menu>
             <br></br><br></br><br></br><br></br>
             <div className="temp-container">
