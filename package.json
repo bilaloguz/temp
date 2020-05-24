@@ -1,13 +1,14 @@
 {
-  "name": "temp",
+  "name": "temp-server",
   "version": "0.0.1",
   "description": "###### run mongodb first: `sudo mongod` || `sudo service mongod start` || `systemctl start mongod` ###### run the app: `npm run dev` ###### browse: will run at: `localhost:3000/`",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "serious": "node server",
     "server": "nodemon server",
     "client": "nodemon client",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"npm run server\" \"npm start --prefix /home/zen/Desktop/app/client \"",
     "dev": "nodemon app"
   },
   "repository": {

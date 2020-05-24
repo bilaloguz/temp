@@ -11,9 +11,7 @@
 - Npm                      6.14.4
 
 ##### Used node packages
-- trendmicro/react-sidenav  0.5.0
 - axios                    0.19.0
-- material-dashboard-react  1.8.0
 - react                    16.9.0
 - react-adminlte-dash       0.4.0
 - react-dom                16.9.0
@@ -25,29 +23,33 @@
 - redux                     4.0.4
 - redux-devtools-extension 2.13.8
 - redux-thunk               2.3.0
+- semantic-ui-react		   0.88.2
+- semantic-ui-css  			2.4.1
 
 ##### Run setup (for development purposes):
 `npm install`
 ##### Run setup (for production):
 `npm build` || `yarn build`
 ##### Run the app:
-`npm start`
+`npm start` || `yarn start`
 ##### Browse:
 App wil run at `http://localhost:5000`
 ##### Default api:
 http://localhost:3000
 ```
- --> /api/auth	   *Authorization service*
+    Routes       Service 			     Requirements
+
+ --> /api/auth	 *Authorization service*
  	-post	     (Login) 
  
- --> /api/user	   *User service*
+ --> /api/user	 *User service*         (Login required & only for user.role === 'admin')
 	-post        (Save a user)
 	-get         (Get all users)
 	-get/:id     (Get a user by id)
 	-delete/:id  (Delete a user by id)
 	-put/:id     (Update a user by id)
 
- --> /api/room	   *Room service*
+ --> /api/room   *Room service*         (Login required)
 	-post	     (Save a room)
 	-get	     (Get all rooms)
  	-get/:id     (Get a room by id )	
