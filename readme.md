@@ -21,7 +21,7 @@ jsonwebtoken      8.5.1
 Bcryptjs          2.4.3
 Mongoose         5.9.10
 Cors              2.8.5
-concurrently		
+concurrently	  5.2.0
 Dotenv            8.2.0
 morgan           1.10.0
 path             0.12.7

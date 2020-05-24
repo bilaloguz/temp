@@ -8,7 +8,7 @@
     "serious": "node server",
     "server": "nodemon server",
     "client": "nodemon client",
-    "start": "concurrently \"npm run server\" \"npm start --prefix /home/zen/Desktop/app/client \"",
+    "start": "concurrently \"npm run server\" \"npm start --prefix /path/to/your/app/client \"",
     "dev": "nodemon app"
   },
   "repository": {
