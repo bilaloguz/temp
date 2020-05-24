@@ -12,7 +12,6 @@ export class SideBar extends React.Component {
         <SideBarItem label='Accounts' icon='user'/>
         <SideBarItem label='Guests' icon='users' />
         <SideBarItem label='Logs' icon='database' />
-        <SideBarItem label='logout' icon='logout' />
       </Menu>
     );
   }

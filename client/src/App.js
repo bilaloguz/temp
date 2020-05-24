@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'semantic-ui-css/semantic.min.css';
 import Landing from './components/layout/Landing';
 import Routes from './components/routing/Routes';

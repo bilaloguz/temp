@@ -5,8 +5,6 @@ import {Link, withRouter} from 'react-router-dom';
 
 export class SideBarItem extends React.Component {
   render() {
-    // React will ignore custom boolean attributes, therefore we pass a string
-    // we use this attribute in our SCSS for styling
     const highlight = this.props.highlight ? 'highlight-item' : null;
     return (
       <Link to={{pathname: this.props.path}}>
