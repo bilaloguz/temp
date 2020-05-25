@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript" src="https://cdn.webix.com/edge/webix.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.webix.com/edge/skins/material.min.css" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css" crossorigin="anonymous" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Temp</title>
+</head>
+
+<body>
+    <script type="text/javascript" charset="utf-8">webix.ready(function () {
+
+            webix.ui({
+
+                view: "window",
+                id: "addroom",
+                head: "New Room",
+                position: "center",
+                autofocus: true,
+                body: {
+                    view: "form", id: "addrform", elements: [
+                        { view: "text", label: "Name", name: "rname" },
+                        {
+                            cols: [
+                                {
+                                    view: "button", value: "Cancel", click: function () {
+                                        this.getTopParentView().hide();
+                                    }
+                                },
+                                {
+                                    id: "btnrmsave", view: "button", type: "form", value: "Save", click: function () {
+                                        this.getFormView().save();
+                                        this.getTopParentView().hide();
+                                        var values = $$("addrform").getValues().rname;
+                                        webix.send("/", { roomname: values }, "POST");
+
+
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    rules: {
+                        "rname": webix.rules.isNotEmpty
+                    }
+                },
+            });
+        });
+
+        webix.ready(function () {
+
+            webix.ui({
+                view: "window",
+                id: "adduser",
+                head: "New User",
+                position: "center",
+                autofocus: true,
+                body: {
+                    view: "form", id: "adduform", elements: [
+                        { view: "text", label: "Username", name: "nusername" },
+                        { view: "text", type: "password", label: "Passsword", name: "npassword" },
+                        { view: "checkbox", label: "isAdmin", name: "nisAdmin", uncheckValue: "off", checkValue: "on", },
+                        {
+                            cols: [
+                                {
+                                    view: "button", value: "Cancel", click: function () {
+                                        this.getTopParentView().hide();
+                                    }
+                                },
+                                {
+                                    id: "btnusrsave", view: "button", type: "form", value: "Save", click: function () {
+                                        this.getFormView().save();
+                                        this.getTopParentView().hide();
+                                        var usr = $$("adduform").getValues().nusername;
+                                        var pass = $$("adduform").getValues().npassword;
+                                        var admn = $$("adduform").getValues().nisAdmin;
+                                        webix.send("/user/add", { username: usr, password: pass, isAdmin: admn }, "POST");
+                                    }
+                                },
+
+                            ]
+                        }
+                    ],
+                    rules: {
+                        "nusername": webix.rules.isNotEmpty,
+                        "npassword": webix.rules.isNotEmpty,
+                    }
+                }
+            });
+        });
+
+
+        webix.ready(function () {
+
+            webix.ui({
+                view: "window",
+                id: "edituser",
+                head: "Edit User",
+                position: "center",
+                autofocus: true,
+                body: {
+                    view: "form", id: "edituform", elements: [
+                        { view: "text", label: "New Username", name: "eUsername" },
+                        { view: "text", type: "password", label: "New Passsword", name: "ePassword" },
+                        { view: "checkbox", label: "isAdmin", name: "eisAdmin", uncheckValue: "off", checkValue: "on" },
+                        {
+                            cols: [
+                                {
+                                    view: "button", value: "Cancel", click: function () {
+
+
+                                        this.getTopParentView().hide();
+                                    }
+                                },
+                                {
+                                    id: "btneusrsave", view: "button", type: "form", value: "Save", click: function () {
+
+                                        this.getFormView().save();
+                                        this.getTopParentView().hide();
+                                        var usr = $$("edituform").getValues().username;
+                                        var nusr = $$("edituform").getValues().eUsername;
+                                        var npass = $$("edituform").getValues().ePassword;
+                                        var nadmn = $$("edituform").getValues().eisAdmin;
+                                        webix.send("/user/edit", { oldUsername: usr, newUsername: nusr, newPassword: npass, newIsAdmin: nadmn }, "POST");
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            id: "btnusrdel", view: "button", type: "form", value: "Delete User", click: function () {
+                                this.getTopParentView().hide();
+                                var usr = $$("edituform").getValues().username;
+                                webix.send("/user/delete", { username: usr }, "POST");
+                            }
+                        }
+
+                    ],
+                    rules: {
+                        "eUsername": webix.rules.isNotEmpty,
+                        "ePassword": webix.rules.isNotEmpty
+                    }
+                }
+            });
+        });
+
+
+        webix.ready(function () {
+
+            webix.ui({
+                view: "window",
+                id: "editroom",
+                head: "Edit Room",
+                position: "center",
+                autofocus: true,
+                body: {
+                    view: "form", id: "editrform", elements: [
+                        { view: "text", label: "New Name", name: "nrname" },
+                        {
+                            cols: [
+                                {
+                                    view: "button", value: "Cancel", click: function () {
+                                        this.getTopParentView().hide();
+                                    }
+                                },
+                                {
+                                    id: "btnredtsave", view: "button", type: "form", value: "Save", click: function () {
+                                        this.getFormView().save();
+                                        this.getTopParentView().hide();
+                                        var oldValue = $$("editrform").getValues().name;
+                                        var newValue = $$("editrform").getValues().nrname;
+                                        webix.send("/room/edit", { oldRoomName: oldValue, newRoomName: newValue }, "POST");
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            id: "btnrdel", view: "button", type: "form", value: "Delete Room", click: function () {
+                                this.getTopParentView().hide();
+                                var Value = $$("editrform").getValues().name;
+                                webix.send("/room/delete", { roomName: Value }, "POST");
+                            }
+                        }
+                    ],
+                    rules: {
+                        "nrname": webix.rules.isNotEmpty
+                    }
+                }
+            });
+        });
+
+
+    </script>
+    <script type="text/javascript" charset="utf-8">var roomVar = [{
+
+            rows: [
+                {
+                    id: "RoomTable",
+                    view: "datatable",
+                    borderless: 1,
+                    scrollX: false,
+
+                    fixedRowHeight: true,
+                    headerRowHeight: 45,
+                    select: true,
+                    data: '!!data',
+
+                    columns: [
+
+                        {
+                            id: "name",
+                            header: { text: "Room list", css: { "text-align": "center" } },
+                            sort: "string",
+                            align: "center",
+                            fillspace: true,
+                            hidden: false,
+                            autoheight: true,
+                            css: { "text-align": "center" }
+                        }
+
+                    ],
+                    on: {
+                        onItemDBlClick: function (item) {
+                            $$("editroom").show();
+                        }
+                    }
+                },
+
+                {
+                    cols: [
+                        { view: "template", role: "placeholder", borderless: 1 },
+                        {
+                            id: "btnx",
+                            view: "button",
+                            type: "icon",
+                            icon: "mdi mdi-plus",
+                            height: 50,
+                            width: 279,
+                            borderless: 1,
+                            disabled: false,
+                            align: "center",
+                            css: "webix_primary",
+                            click: function () {
+                                $$("addroom").show();
+                            }
+                        }, { view: "template", role: "placeholder", borderless: 1 },
+                    ]
+                },
+                { view: "template", role: "placeholder", height: 147, borderless: 1 },
+
+            ]
+
+        }];
+
+
+        var accVar = [{
+
+            rows: [
+                {
+                    id: "AccountTable",
+                    view: "datatable",
+                    scrollX: false,
+                    borderless: 1,
+                    fixedRowHeight: true,
+                    headerRowHeight: 45,
+                    select: true,
+                    resizeColumn: true,
+                    data: "!!data",
+                    columns: [
+                        {
+                            id: "username",
+                            header: [{ text: "Account list", colspan: 2, css: { "text-align": "center" } }, { text: "Username", css: { "text-align": "center" } }],
+                            sort: "string",
+                            width: 200,
+                            fillspace: true,
+                            hidden: false,
+                            css: { "text-align": "center" }
+                        },
+                        { id: "isAdmin", header: ["", { text: "isAdmin", css: { "text-align": "center" } }], fillspace: true, hidden: false, css: { "text-align": "center" } },
+                    ],
+                    on: {
+                        onItemDBlClick: function (item) {
+                            $$("edituser").show();
+                        }
+                    }
+                },
+                {
+                    cols: [
+                        { view: "template", role: "placeholder", borderless: 1 },
+                        {
+                            id: "btny",
+                            view: "button",
+                            type: "icon",
+                            icon: "mdi mdi-plus",
+                            height: 50,
+                            width: 279,
+                            borderless: 1,
+                            disabled: false,
+                            align: "center",
+                            css: "webix_primary",
+                            click: function () {
+                                $$("adduser").show();
+                            }
+                        }, { view: "template", role: "placeholder", borderless: 1 },
+                    ]
+                },
+                { view: "template", role: "placeholder", height: 147, borderless: 1 },
+
+            ]
+
+        }];
+        var guestVar = [{
+            rows: [
+                {
+                    id: "GuestTable",
+                    view: "datatable",
+                    scrollX: false,
+                    borderless: 0,
+
+                    fixedRowHeight: true,
+                    headerRowHeight: 45,
+                    data: [{ ID: 1, glist: "Emily" },
+                    { ID: 2, glist: "Makarov" },
+
+                    ],
+                    select: true,
+                    columns: [
+                        {
+                            id: "glist",
+                            header: { text: "Guest list", css: { "text-align": "center" } },
+                            sort: "string",
+                            fillspace: true,
+                            hidden: false,
+                            css: { "text-align": "center" }
+                        }
+                    ],
+                }]
+        }];
+        var logVar = [{
+            rows: [
+                {
+                    id: "LogTable",
+                    view: "datatable",
+                    borderless: 0,
+                    scrollX: false,
+                    fixedRowHeight: true,
+                    headerRowHeight: 45,
+                    data: [{ ID: 1, lglist: "24/01/2019" },
+                    { ID: 2, lglist: "24/05/2020" }
+                    ], select: true,
+                    columns: [
+                        {
+                            id: "lglist",
+                            header: { text: "Log list", css: { "text-align": "center" } },
+                            sort: "string",
+                            fillspace: true,
+                            hidden: false,
+                            css: { "text-align": "center" }
+                        }
+                    ],
+                }]
+        }];
+        var KeyCells = [
+            { id: "home", rows: roomVar },
+            { id: "accounts", rows: accVar },
+            { id: "guests", rows: guestVar },
+            { id: "logs", rows: logVar }
+        ];</script>
+    <script type="text/javascript" charset="utf-8">webix.ready(function () {
+
+            webix.ui({
+                rows: [
+                    {
+                        css: "webix_dark",
+                        view: "toolbar",
+                        height: 50,
+                        cols: [
+                            {
+                                view: "label",
+                                label: "Tempo"
+                            },
+                            {
+
+                                id: "logout",
+                                view: "button",
+                                type: "icon",
+                                icon: "mdi mdi-logout",
+                                label: "Logout",
+                                css: "webix_dark",
+                                borderless: 1,
+                                disabled: false,
+                                width: "80"
+
+
+
+                            }
+                        ]
+                    },
+                    {
+                        cols: [
+                            {
+                                view: "sidebar",
+                                width: 250,
+                                css: "webix_dark",
+                                template: "<span class='mdi mdi-#icon#'></span> #value#",
+                                data: [
+                                    {
+                                        id: "home",
+                                        value: "Home",
+                                        icon: "home",
+                                    },
+                                    {
+                                        id: "accounts",
+                                        value: "Accounts",
+                                        icon: "account"
+                                    },
+                                    {
+                                        id: "guests",
+                                        value: "Guests",
+                                        icon: "account-group"
+                                    },
+                                    {
+                                        id: "logs",
+                                        value: "Logs",
+                                        icon: "database"
+                                    }
+                                ],
+
+                                on: {
+                                    onAfterSelect: function (id) {
+                                        $$("Key").setValue(id);
+                                    }
+                                },
+                                ready: function () {
+                                    var firstItem = this.getFirstId();
+                                    this.select(firstItem);
+                                    $$("addrform").validate();
+                                    $$("editrform").validate();
+                                    $$("addrform").bind($$("RoomTable"));
+                                    $$("editrform").bind($$("RoomTable"));
+
+                                    $$("edituform").validate();
+                                    $$("adduform").validate();
+                                    $$("edituform").bind($$("AccountTable"));
+                                    $$("adduform").bind($$("AccountTable"));
+
+                                    $$("logout").attachEvent("onitemclick", function () {
+                                        webix.send("/logout", null, "GET");
+                                    });
+
+                                },
+                            },
+                            {
+                                id: "Key",
+                                cells: KeyCells
+                            }
+                        ],
+                    }
+                ],
+
+            });
+        });</script>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+@import './shared.scss';
+
+.sidebar-item {
+    background: #f5f5f5;
+    span {
+      i.icon {
+        margin-right: 20px;
+        color: #ffffff;
+      }
+      color: white;
+    }
+  
+    &.highlight-item {
+      span {
+        font-weight: 600;
+      }
+      background: black;
+      i.icon {
+        color: #2975bd;
+      }
+    }
+  }
+  
+  .sidebar-item-alignment-container {
+    display: flex;
+    align-items: center;
+  }
