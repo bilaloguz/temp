@@ -1,0 +1,38 @@
+{
+  "name": "temp-server",
+  "version": "0.0.1",
+  "description": "###### run mongodb first: `sudo mongod` || `sudo service mongod start` || `systemctl start mongod` ###### run the app: `npm run dev` ###### browse: will run at: `localhost:3000/`",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server",
+    "start": "node server",
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bilaloguz/temp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bilaloguz/temp/issues"
+  },
+  "homepage": "https://github.com/bilaloguz/temp#readme",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.3",
+    "express-validator": "^6.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.10",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7",
+    "pug": "^2.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.2"
+  }
+}

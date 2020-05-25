@@ -1,0 +1,78 @@
+html
+  head
+    meta(charset='UTF-8')
+    title Temp - Login
+    link(rel='stylesheet' href='/css/style.css' media='screen' type='text/css')
+    //script(src='https://code.jquery.com/jquery-3.5.1.min.js')
+    link(rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:400,700')
+  body
+      .container  
+        #login
+          p(style="font-size:30px; color:white") Log in
+          br
+          div(id="loginForm")
+            fieldset.clearfix
+              p
+                span.fontawesome-user
+                input(type='text' name='name' id="username" value='Username' onblur="if(this.value == '') this.value = 'Username'" onfocus="if(this.value == 'Username') this.value = ''" required)
+              // JS because of IE support; better: placeholder="Username"
+              p
+                span.fontawesome-lock
+                input(type='password' name='password' id="password" value='Password' onblur="if(this.value == '') this.value = 'Password'" onfocus="if(this.value == 'Password') this.value = ''" required)
+              // JS because of IE support; better: placeholder="Password"
+              p
+                input(type="submit" id="submit"  name="submit")
+                
+                p Sign In
+                p(id="result")
+              div(id="messageDiv")
+
+
+script(src='https://code.jquery.com/jquery-3.5.0.min.js')
+script.
+  $(document).ready(function () {
+  // auth
+  $("#submit").click(function (e) {
+  $.ajax({
+  type: "POST",
+  url: "/api/auth",
+  data: JSON.stringify({ name: $("#username").val(), password: $("#password").val() }),
+  contentType: 'application/json; charset=utf-8',
+  dataType: "json",
+  success: function (result) {
+  if (result != "error") {
+  // set auth cookie
+  sessionStorage.setItem("accessToken", result.token);
+  const token = sessionStorage.getItem("accessToken");
+
+  console.log(token)
+  getHome();
+  }
+  else {
+  $("#messageDiv").show();
+  $("#messageDiv").html("Error");
+  }
+  },
+  error: function (req, status, error) {
+  alert(error);
+  }
+  });
+  });
+  function getHome() {
+  const token = sessionStorage.getItem("accessToken");
+  $.ajax({
+  url: "/",
+  data: { signature: authHeader },
+  type: "GET",
+  beforeSend: function(xhr){xhr.setRequestHeader('x-auth-token', 'test-value');},
+  success: function() { alert('Success!' + authHeader); },
+  error: function (xhr, status, error) {
+  alert(error);
+  },
+  });
+  }
+  });
+  function logout() {
+  sessionStorage.removeItem("accessToken");
+  location.reload();
+  };
